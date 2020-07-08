@@ -1,5 +1,11 @@
 import textwrap
 
+c = {
+    "red": "\033[31m",
+    "yellow": "\033[93m",
+    "end": "\033[0m"
+}
+
 
 # Write a class to hold player information, e.g. what room they are in
 # currently.
@@ -10,14 +16,14 @@ class Player:
 
     def printRoomDescription(self):
         room = self.location
-        title = ['--- {name} ---'.format(name=room.name)]
+        title = [f'{c["yellow"]}--- {room.name} ---{c["end"]}']
         description = title + textwrap.wrap(' '.join(room.description.split()))
         for line in description:
             print(line)
 
     def movePlayer(self, direction):
         currentRoom = self.location
-        move = '{dir}_to'.format(dir=direction)
+        move = f'{direction}_to'
         if hasattr(currentRoom, move):
             self.location = getattr(currentRoom, move)
             return True

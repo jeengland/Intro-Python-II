@@ -1,6 +1,7 @@
+import textwrap
+import os
 from room import Room
 from player import Player
-import textwrap
 
 # Declare all the rooms
 
@@ -59,7 +60,7 @@ newRoom = True
 availableCommands = [
     "help    - Bring up a list of commands",
     "quit    - Exit the game",
-    "look    - Look around the current room",
+    "check   - Look around the current room",
     "n/s/e/w - Walk in the corresponding cardinal direction"
 ]
 
@@ -68,6 +69,14 @@ def printCommandList():
     for commandDescription in availableCommands:
         print(commandDescription)
 
+
+c = {
+    "red": "\033[31m",
+    "yellow": "\033[93m",
+    "end": "\033[0m"
+}
+
+os.system('cls' if os.name == 'nt' else 'clear')
 
 while not done:
     if newRoom:
@@ -78,10 +87,10 @@ while not done:
         done = True
     elif cmd == 'help':
         printCommandList()
-    elif cmd == 'look':
+    elif cmd == 'check':
         player.printRoomDescription()
     elif cmd == 'n' or cmd == 'e' or cmd == 's' or cmd == 'w':
         if player.movePlayer(cmd):
             newRoom = True
     else:
-        print("I can't do that!")
+        print(f'{c["red"]}I can\'t do that!{c["end"]}')
