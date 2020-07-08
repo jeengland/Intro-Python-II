@@ -53,6 +53,7 @@ room['treasure'].s_to = room['narrow']
 # If the user enters "q", quit the game.
 
 player = Player(room['outside'])
+done = False
 
 
 def printRoomDescription(room):
@@ -61,4 +62,7 @@ def printRoomDescription(room):
         print(line)
 
 
-printRoomDescription(room['treasure'])
+while not done:
+    cmd = input('>>>')
+    if cmd == 'q':
+        done = True
