@@ -4,7 +4,10 @@ class Item:
         self.description = description
 
     def __str__(self):
-        return f'{self.name}'
+        return self.name
+
+    def on_examine(self):
+        print(' '.join(self.description.split()))
 
     def on_take(self):
         print(f'You have picked up {self.name}')

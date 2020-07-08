@@ -72,12 +72,16 @@ done = False
 newRoom = True
 
 availableCommands = [
-    "help      - Bring up a list of commands",
-    "quit      - Exit the game",
-    "n/s/e/w   - Walk in the corresponding cardinal direction"
-    "check     - Look around the current room",
-    "search    - Search for items in the current room",
-    "inventory - See what items are in your inventory"
+    "help           - Bring up a list of commands",
+    "quit           - Exit the game",
+    "n/s/e/w        - Walk in the corresponding cardinal direction",
+    "check          - Look around the current room",
+    "search         - Search for items in the current room",
+    "inventory      - See what items are in your inventory",
+    "take [item]    - Pick up an item",
+    "drop [item]    - Drop an item",
+    "examine [item] - Examine an item"
+
 ]
 
 
@@ -121,8 +125,8 @@ while not done:
             print(f'{cmd.capitalize()} what?')
         else:
             if obj in item:
-                targetItem = item[obj]
                 room = player.location
+                targetItem = item[obj]
                 if targetItem in room.items:
                     room.items.remove(targetItem)
                     player.items = player.items + [targetItem]
@@ -136,9 +140,9 @@ while not done:
             print('Drop what?')
         else:
             if obj in item:
+                room = player.location
                 targetItem = item[obj]
                 if targetItem in player.items:
-                    room = player.location
                     player.items.remove(targetItem)
                     room.items = room.items + [targetItem]
                     targetItem.on_drop()
@@ -146,5 +150,20 @@ while not done:
                     print('I don\'t have that.')
             else:
                 print('I don\'t have anything like that.')
+    elif cmd == 'examine':
+        if obj == '':
+            print('Examine what?')
+        else:
+            if obj in item:
+                room = player.location
+                targetItem = item[obj]
+                if targetItem in player.items:
+                    targetItem.on_examine()
+                elif targetItem in room.items:
+                    targetItem.on_examine()
+                else:
+                    print('I don\'t see anything like that.')
+            else:
+                print('I don\'t see anything like that.')
     else:
         print(f'{c["red"]}I can\'t do that!{c["end"]}')
