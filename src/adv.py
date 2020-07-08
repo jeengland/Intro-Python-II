@@ -57,9 +57,10 @@ done = False
 newRoom = True
 
 availableCommands = [
-    "help - Bring up a list of commands",
-    "quit - Exit the game",
-    "look - Look around the current room"
+    "help    - Bring up a list of commands",
+    "quit    - Exit the game",
+    "look    - Look around the current room",
+    "n/s/e/w - Walk in the corresponding cardinal direction"
 ]
 
 
