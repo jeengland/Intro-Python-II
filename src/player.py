@@ -15,5 +15,12 @@ class Player:
         for line in description:
             print(line)
 
-    def setRoom(self, room):
-        self.location = room
+    def movePlayer(self, direction):
+        currentRoom = self.location
+        move = '{dir}_to'.format(dir=direction)
+        if hasattr(currentRoom, move):
+            self.location = getattr(currentRoom, move)
+            return True
+        else:
+            print('There is no room in that direction.')
+            return False

@@ -52,7 +52,7 @@ room['treasure'].s_to = room['narrow']
 #
 # If the user enters "q", quit the game.
 
-player = Player(room['outside'])
+player = Player(room['outside'], "Player")
 done = False
 newRoom = True
 
@@ -79,5 +79,8 @@ while not done:
         printCommandList()
     elif cmd == 'look':
         player.printRoomDescription()
+    elif cmd == 'n' or cmd == 'e' or cmd == 's' or cmd =='w':
+        if player.movePlayer(cmd):
+            newRoom = True
     else:
         print("I can't do that!")
