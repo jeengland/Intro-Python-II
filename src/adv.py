@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+import textwrap
 
 # Declare all the rooms
 
@@ -9,12 +11,12 @@ room = {
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+    'overlook': Room("Grand Overlook", """A steep cliff appears before
+    you, falling into the darkness. Ahead to the north, a light flickers in
+    the distance, but there is no way across the chasm."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+    'narrow':   Room("Narrow Passage", """The narrow passage bends here from
+    west to north. The smell of gold permeates the air."""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
@@ -49,3 +51,36 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+player = Player(room['outside'], "Player")
+done = False
+newRoom = True
+
+availableCommands = [
+    "help - Bring up a list of commands",
+    "quit - Exit the game",
+    "look - Look around the current room"
+]
+
+
+def printCommandList():
+    for commandDescription in availableCommands:
+        print(commandDescription)
+
+
+while not done:
+    if newRoom:
+        player.printRoomDescription()
+        newRoom = False
+    cmd = input('>>> ')
+    if cmd == 'q' or cmd == 'quit':
+        done = True
+    elif cmd == 'help':
+        printCommandList()
+    elif cmd == 'look':
+        player.printRoomDescription()
+    elif cmd == 'n' or cmd == 'e' or cmd == 's' or cmd == 'w':
+        if player.movePlayer(cmd):
+            newRoom = True
+    else:
+        print("I can't do that!")
