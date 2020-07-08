@@ -62,7 +62,21 @@ def printRoomDescription(room):
         print(line)
 
 
+availableCommands = [
+    "help - Bring up a list of commands",
+    "quit - Exit the game"
+]
+
+
+def printCommandList():
+    for commandDescription in availableCommands:
+        print(commandDescription)
+
 while not done:
-    cmd = input('>>>')
-    if cmd == 'q':
+    cmd = input('>>> ')
+    if cmd == 'q' or cmd == 'quit':
         done = True
+    if cmd == 'help':
+        printCommandList()
+    else:
+        print("I can't do that!")
