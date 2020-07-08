@@ -10,8 +10,8 @@ class Player:
 
     def printRoomDescription(self):
         room = self.location
-        title = '--- {name} ---'.format(name=room.name)
-        description = [title] + textwrap.wrap(room.description)
+        title = ['--- {name} ---'.format(name=room.name)]
+        description = title + textwrap.wrap(' '.join(room.description.split()))
         for line in description:
             print(line)
 

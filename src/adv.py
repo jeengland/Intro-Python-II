@@ -79,7 +79,7 @@ while not done:
         printCommandList()
     elif cmd == 'look':
         player.printRoomDescription()
-    elif cmd == 'n' or cmd == 'e' or cmd == 's' or cmd =='w':
+    elif cmd == 'n' or cmd == 'e' or cmd == 's' or cmd == 'w':
         if player.movePlayer(cmd):
             newRoom = True
     else:
