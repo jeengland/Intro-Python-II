@@ -2,6 +2,7 @@ import textwrap
 import os
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -24,6 +25,19 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
+# Declare all items
+
+item = {
+    'key': Item("Key", """A wrought iron key. It has somewhat of a heft
+    to it."""),
+    'coins': Item("Coins", """A pile of coins, presumable left by whoever
+    looted the treasure chamber.""")
+}
+
+# Put items in appropriate rooms
+
+room['foyer'].items = [item['key']]
+room['treasure'].items = [item['coins']]
 
 # Link rooms together
 
@@ -58,10 +72,12 @@ done = False
 newRoom = True
 
 availableCommands = [
-    "help    - Bring up a list of commands",
-    "quit    - Exit the game",
-    "check   - Look around the current room",
-    "n/s/e/w - Walk in the corresponding cardinal direction"
+    "help      - Bring up a list of commands",
+    "quit      - Exit the game",
+    "n/s/e/w   - Walk in the corresponding cardinal direction"
+    "check     - Look around the current room",
+    "search    - Search for items in the current room",
+    "inventory - See what items are in your inventory"
 ]
 
 
@@ -82,7 +98,11 @@ while not done:
     if newRoom:
         player.printRoomDescription()
         newRoom = False
-    cmd = input('>>> ')
+    instructions = input('>>> ')
+    cmd = instructions.split()[0].lower()
+    obj = ''
+    if len(instructions.split()) > 1:
+        obj = instructions.split()[1].lower()
     if cmd == 'q' or cmd == 'quit':
         done = True
     elif cmd == 'help':
@@ -92,5 +112,39 @@ while not done:
     elif cmd == 'n' or cmd == 'e' or cmd == 's' or cmd == 'w':
         if player.movePlayer(cmd):
             newRoom = True
+    elif cmd == 'search':
+        player.location.lookForItems()
+    elif cmd == 'inventory':
+        player.checkInventory()
+    elif cmd == 'get' or cmd == 'take':
+        if obj == '':
+            print(f'{cmd.capitalize()} what?')
+        else:
+            if obj in item:
+                targetItem = item[obj]
+                room = player.location
+                if targetItem in room.items:
+                    room.items.remove(targetItem)
+                    player.items = player.items + [targetItem]
+                    targetItem.on_take()
+                else:
+                    print('I don\'t see anything like that.')
+            else:
+                print('I don\'t see anything like that.')
+    elif cmd == 'drop':
+        if obj == '':
+            print('Drop what?')
+        else:
+            if obj in item:
+                targetItem = item[obj]
+                if targetItem in player.items:
+                    room = player.location
+                    player.items.remove(targetItem)
+                    room.items = room.items + [targetItem]
+                    targetItem.on_drop()
+                else:
+                    print('I don\'t have that.')
+            else:
+                print('I don\'t have anything like that.')
     else:
         print(f'{c["red"]}I can\'t do that!{c["end"]}')
