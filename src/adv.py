@@ -54,17 +54,12 @@ room['treasure'].s_to = room['narrow']
 
 player = Player(room['outside'])
 done = False
-
-
-def printRoomDescription(room):
-    description = [room.name] + textwrap.wrap(room.description)
-    for line in description:
-        print(line)
-
+newRoom = True
 
 availableCommands = [
     "help - Bring up a list of commands",
-    "quit - Exit the game"
+    "quit - Exit the game",
+    "look - Look around the current room"
 ]
 
 
@@ -72,11 +67,17 @@ def printCommandList():
     for commandDescription in availableCommands:
         print(commandDescription)
 
+
 while not done:
+    if newRoom:
+        player.printRoomDescription()
+        newRoom = False
     cmd = input('>>> ')
     if cmd == 'q' or cmd == 'quit':
         done = True
-    if cmd == 'help':
+    elif cmd == 'help':
         printCommandList()
+    elif cmd == 'look':
+        player.printRoomDescription()
     else:
         print("I can't do that!")
